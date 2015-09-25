@@ -7,10 +7,20 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.Viewer;
+
+import com.starterkit.todo.DataBase.DataBaseImitation;
 
 public class Main extends ViewPart {
 
 	public static final String ID = "com.starterkit.todo.views.ToDo"; //$NON-NLS-1$
+	private Table table;
 
 	public Main() {
 	}
@@ -21,20 +31,11 @@ public class Main extends ViewPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NONE);
-		container.setLayout(new GridLayout(10, false));
-		new Label(container, SWT.NONE);
-		new Label(container, SWT.NONE);
-		new Label(container, SWT.NONE);
-		new Label(container, SWT.NONE);
-		new Label(container, SWT.NONE);
-		new Label(container, SWT.NONE);
-		new Label(container, SWT.NONE);
-		new Label(container, SWT.NONE);
-		new Label(container, SWT.NONE);
+		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 		{
-			Label lblNewLabel = new Label(container, SWT.NONE);
-			lblNewLabel.setText("New Label");
+			TableViewer tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
+			
+			table = tableViewer.getTable();
 		}
 
 		createActions();
