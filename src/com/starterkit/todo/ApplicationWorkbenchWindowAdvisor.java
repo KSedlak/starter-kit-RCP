@@ -8,6 +8,17 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
+	public static int getSizeW() {
+		return sizeW;
+	}
+
+	public static int getSizeH() {
+		return sizeH;
+	}
+
+	private static int sizeW=800;
+	private static int sizeH=800;
+	
 	public ApplicationWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
 		super(configurer);
 	}
@@ -19,7 +30,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 	public void preWindowOpen() {
 		IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
-		configurer.setInitialSize(new Point(800, 800));
+		configurer.setInitialSize(new Point(sizeW, sizeH));
 		configurer.setShowCoolBar(false);
 		configurer.setShowStatusLine(false);
 		configurer.setShowPerspectiveBar(true);

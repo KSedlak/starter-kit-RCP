@@ -18,14 +18,29 @@
             id="com.starterkit.todo.perspectives.Main"
             name="Main">
       </perspective>
+      <perspective
+            class="com.starterkit.todo.perspectives.Advanced"
+            id="com.starterkit.todo.perspectives.Advanced"
+            name="TaskManager">
+      </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="com.starterkit.todo.views.Main"
-            id="com.starterkit.todo.views.Main"
-            name="MainView"
+            class="com.starterkit.todo.views.List"
+            id="com.starterkit.todo.views.List"
+            name="Task List"
             restorable="true">
+      </view>
+      <view
+            class="com.starterkit.todo.views.ArchiveList"
+            id="com.starterkit.todo.views.ArchiveList"
+            name="Archive">
+      </view>
+      <view
+            class="com.starterkit.todo.views.AddTask"
+            id="com.starterkit.todo.perspectives.AddTask"
+            name="Add Task">
       </view>
    </extension>
    <extension
@@ -33,11 +48,36 @@
       <perspectiveExtension
             targetID="com.starterkit.todo.perspectives.Main">
          <view
-               id="com.starterkit.todo.views.Main"
+               id="com.starterkit.todo.views.List"
                minimized="false"
-               ratio="0.95f"
-               relationship="top"
+               ratio="0.96f"
+               relationship="stack"
+               relative="org.eclipse.ui.editorss"
+               showTitle="false">
+         </view>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="com.starterkit.todo.perspectives.Advanced">
+         <view
+               id="com.starterkit.todo.views.List"
+               minimized="false"
+               ratio="0.5"
+               relationship="left"
                relative="org.eclipse.ui.editorss">
+         </view>
+         <view
+               id="com.starterkit.todo.views.ArchiveList"
+               minimized="false"
+               ratio="0.2"
+               relationship="right"
+               relative="org.eclipse.ui.editorss">
+         </view>
+         <view
+               id="com.starterkit.todo.perspectives.AddTask"
+               minimized="false"
+               ratio="0.2"
+               relationship="bottom"
+               relative="com.starterkit.todo.views.ArchiveList">
          </view>
       </perspectiveExtension>
    </extension>

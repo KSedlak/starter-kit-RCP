@@ -10,12 +10,17 @@ import com.starterkit.todo.DataModel.Status;
 import com.starterkit.todo.DataModel.ToDoObject;
 
 public class ToDoRepository {
-	
+
 	 private static final DataBaseImitation database=DataBaseImitation.getInstance();
+	 private static final ToDoRepository repository=new ToDoRepository();
+	    private  ToDoRepository() {
+		}
 	 
-	 
-	 
-	 public List<ToDoObject> getAllToDos(){
+	 public static ToDoRepository getInstance() {
+			return repository;
+		}
+
+	public List<ToDoObject> getAllToDos(){
 		return database.getListOfTask();
 	 }
 	
