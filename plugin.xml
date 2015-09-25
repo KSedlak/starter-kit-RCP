@@ -14,16 +14,16 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="com.starterkit.todo.perspectives.Default"
-            id="com.starterkit.todo.perspectives.Default"
-            name="ToDo">
+            class="com.starterkit.todo.perspectives.Main"
+            id="com.starterkit.todo.perspectives.Main"
+            name="Main">
       </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="com.starterkit.todo.views.MainView"
-            id="com.starterkit.todo.views.MainView"
+            class="com.starterkit.todo.views.Main"
+            id="com.starterkit.todo.views.Main"
             name="MainView"
             restorable="true">
       </view>
@@ -31,15 +31,13 @@
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="com.starterkit.todo.perspectives.Default">
+            targetID="com.starterkit.todo.perspectives.Main">
          <view
-               closeable="true"
-               id="com.starterkit.todo.views.MainView"
+               id="com.starterkit.todo.views.Main"
                minimized="false"
                ratio="0.95f"
                relationship="top"
-               relative="org.eclipse.ui.editors"
-               visible="true">
+               relative="org.eclipse.ui.editorss">
          </view>
       </perspectiveExtension>
    </extension>

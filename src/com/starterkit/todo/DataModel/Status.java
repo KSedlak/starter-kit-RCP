@@ -1,4 +1,4 @@
-package DataModel;
+package com.starterkit.todo.DataModel;
 
 public enum Status {
 Undone,

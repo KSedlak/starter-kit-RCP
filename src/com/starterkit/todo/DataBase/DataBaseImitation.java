@@ -1,11 +1,11 @@
-package DataBase;
+package com.starterkit.todo.DataBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import DataModel.Priority;
-import DataModel.Status;
-import DataModel.ToDoObject;
+import com.starterkit.todo.DataModel.Priority;
+import com.starterkit.todo.DataModel.Status;
+import com.starterkit.todo.DataModel.ToDoObject;
 
 public class DataBaseImitation {//singleton instance with toDo´s
 

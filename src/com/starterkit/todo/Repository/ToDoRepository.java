@@ -1,13 +1,13 @@
-package Repository;
+package com.starterkit.todo.Repository;
 
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import DataBase.DataBaseImitation;
-import DataModel.Priority;
-import DataModel.Status;
-import DataModel.ToDoObject;
+import com.starterkit.todo.DataBase.DataBaseImitation;
+import com.starterkit.todo.DataModel.Priority;
+import com.starterkit.todo.DataModel.Status;
+import com.starterkit.todo.DataModel.ToDoObject;
 
 public class ToDoRepository {
 	
