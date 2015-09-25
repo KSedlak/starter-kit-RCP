@@ -25,6 +25,8 @@ import org.eclipse.swt.widgets.Button;
 
 
 public class List extends ViewPart {
+	public List() {
+	}
 
   public static final String ID = "com.starterkit.todo.views.List";
 

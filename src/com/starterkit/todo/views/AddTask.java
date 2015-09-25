@@ -20,8 +20,10 @@ import com.starterkit.todo.DataModel.Priority;
 import com.starterkit.todo.DataModel.Status;
 import com.starterkit.todo.DataModel.ToDoObject;
 import com.starterkit.todo.Repository.ToDoRepository;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
-public class AddTask extends ViewPart implements ActionListener{
+public class AddTask extends ViewPart{
 
 	public static final String ID = "com.starterkit.todo.perspectives.AddTask"; //$NON-NLS-1$
 	
@@ -79,12 +81,28 @@ public class AddTask extends ViewPart implements ActionListener{
 		new Label(parent, SWT.NONE);
 		{
 			addButton= new Button(parent, SWT.NONE);
+			addButton.setText("Dodaj");
+			GridData gd_addButton = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+			gd_addButton.widthHint = 331;
+			addButton.setLayoutData(gd_addButton);
+			addButton.addSelectionListener(new SelectionAdapter() {
+		
+		
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+				  	ToDoObject toAdd=new ToDoObject(
+		        			Priority.valueOf(priorityCombo.getText()),
+		        			text.getText(),
+		        			Status.valueOf(statusCombo.getText())
+		        			);
+		        	//to repo
+		        	ToDoRepository.getInstance().save(toAdd);
+				}
+			});
 			addButton.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 			GridData gd_btnNewButton = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 			gd_btnNewButton.widthHint = 322;
-			addButton.setLayoutData(gd_btnNewButton);
-			addButton.setText("Dodaj");
-			
+
 			 
 		}
 
@@ -92,18 +110,7 @@ public class AddTask extends ViewPart implements ActionListener{
 		initializeToolBar();
 		initializeMenu();
 	}
-	public void actionPerformed(ActionEvent e) { 
-        if(e.getSource() == addButton){ 
-        	ToDoObject toAdd=new ToDoObject(
-        			Priority.valueOf(priorityCombo.getText()),
-        			text.getText(),
-        			Status.valueOf(statusCombo.getText())
-        			);
-        	//to repo
-        	ToDoRepository.getInstance().save(toAdd);
-        	
-        } 
-    } 
+ 
 
 	/**
 	 * Create the actions.
