@@ -101,6 +101,7 @@ public int getID() {
 }
 
 public void setID(int iD) {
-	ID = iD;
+	 propertyChangeSupport.firePropertyChange("ID", this.ID,
+	this.ID = iD);
 }
 }

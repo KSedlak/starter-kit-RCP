@@ -4,6 +4,8 @@ package com.starterkit.todo.views;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.core.databinding.observable.list.WritableList;
+import org.eclipse.jface.databinding.viewers.ViewerSupport;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -14,12 +16,20 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.core.databinding.beans.BeanProperties;
 
 import com.starterkit.todo.ApplicationWorkbenchWindowAdvisor;
 import com.starterkit.todo.DataModel.ToDoObject;
 import com.starterkit.todo.Repository.ToDoRepository;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.property.value.IValueProperty;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.swt.widgets.Button;
+
 
 
 
@@ -33,7 +43,7 @@ public class List extends ViewPart {
   private TableViewer viewer;
 
 private java.util.List<ToDoObject> tableData=ToDoRepository.getInstance().getActiveTask();
-
+private WritableList input;
 
 
 public void createPartControl(Composite parent) {
@@ -61,10 +71,15 @@ public void createPartControl(Composite parent) {
     table.setHeaderVisible(true);
     table.setLinesVisible(true);
 
-    viewer.setContentProvider(new ArrayContentProvider());
-    // get the content for the viewer, setInput will call getElements in the
-    // contentProvider
-    viewer.setInput(tableData);
+	input = new WritableList(ToDoRepository.getInstance().getActiveTask(), ToDoObject.class);
+	
+	ViewerSupport.bind(
+			viewer,
+			input,
+			BeanProperties.values(new String[] { "task", "status",
+			"priority" })
+);
+ 
     // make the selection available to other views
     getSite().setSelectionProvider(viewer);
     // set the sorter for the table
