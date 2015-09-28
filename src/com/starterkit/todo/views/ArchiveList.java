@@ -4,6 +4,9 @@ package com.starterkit.todo.views;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.observable.list.WritableList;
+import org.eclipse.jface.databinding.viewers.ViewerSupport;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -18,8 +21,11 @@ import org.eclipse.swt.widgets.Text;
 import com.starterkit.todo.ApplicationWorkbenchWindowAdvisor;
 import com.starterkit.todo.DataModel.ToDoObject;
 import com.starterkit.todo.Repository.ToDoRepository;
+import com.starterkit.todo.ResultModel.ResultModel;
 
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 
 
@@ -28,11 +34,11 @@ public class ArchiveList extends ViewPart {
 	public ArchiveList() {
 	}
 
-  public static final String ID = "com.starterkit.todo.views.List";
-
+  public static final String ID = "com.starterkit.todo.views.ArchiveList";
+  private ResultModel resultManager = ResultModel.getInstance();
   private TableViewer viewer;
-
-private java.util.List<ToDoObject> tableData=ToDoRepository.getInstance().getArchive();
+  private Text searchText;
+  private WritableList input;
 
 
 
@@ -42,16 +48,25 @@ public void createPartControl(Composite parent) {
     parent.setLayout(layout);
     Label searchLabel = new Label(parent, SWT.NONE);
     searchLabel.setText("Search: ");
-    final Text searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
+    searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
     searchText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
         | GridData.HORIZONTAL_ALIGN_FILL));
     createViewer(parent);
+    new Label(parent, SWT.NONE);
+    new Label(parent, SWT.NONE);
 
     
   }
   private void createViewer(Composite parent) {
     {
     	Button btnNewButton = new Button(parent, SWT.NONE);
+    	btnNewButton.addSelectionListener(new SelectionAdapter() {
+    		@Override
+    		public void widgetSelected(SelectionEvent e) {
+    			
+    			resultManager.getArchiveTaskByText(searchText.getText());	
+    		}
+    	});
     	btnNewButton.setText("szukaj");
     }
     viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
@@ -61,11 +76,14 @@ public void createPartControl(Composite parent) {
     table.setHeaderVisible(true);
     table.setLinesVisible(true);
 
-    viewer.setContentProvider(new ArrayContentProvider());
-    // get the content for the viewer, setInput will call getElements in the
-    // contentProvider
-    viewer.setInput(tableData);
-    // make the selection available to other views
+	input = resultManager.getArchiveList();
+		
+		ViewerSupport.bind(
+				viewer,
+				input,
+				BeanProperties.values(new String[] { "task", "status",
+				"priority" })
+	);
     getSite().setSelectionProvider(viewer);
     // set the sorter for the table
 

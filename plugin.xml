@@ -42,6 +42,11 @@
             id="com.starterkit.todo.perspectives.AddTask"
             name="Add Task">
       </view>
+      <view
+            class="com.starterkit.todo.views.DetailsEdit"
+            id="com.starterkit.todo.views.DetailsEdit"
+            name="Details">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -59,25 +64,33 @@
       <perspectiveExtension
             targetID="com.starterkit.todo.perspectives.Advanced">
          <view
-               id="com.starterkit.todo.views.List"
-               minimized="false"
-               ratio="0.5"
-               relationship="left"
-               relative="org.eclipse.ui.editorss">
-         </view>
-         <view
                id="com.starterkit.todo.views.ArchiveList"
                minimized="false"
-               ratio="0.2"
+               ratio="0.8"
+               relationship="left"
+               relative="com.starterkit.todo.views.List">
+         </view>
+         <view
+               id="com.starterkit.todo.views.List"
+               minimized="false"
+               ratio="0.4"
                relationship="right"
-               relative="org.eclipse.ui.editorss">
+               relative="com.starterkit.todo.views.ArchiveList">
          </view>
          <view
                id="com.starterkit.todo.perspectives.AddTask"
                minimized="false"
-               ratio="0.2"
+               ratio="0.7"
                relationship="bottom"
-               relative="com.starterkit.todo.views.ArchiveList">
+               relative="com.starterkit.todo.views.List">
+         </view>
+         <view
+               closeable="true"
+               id="com.starterkit.todo.views.DetailsEdit"
+               minimized="false"
+               ratio="0.8"
+               relationship="right"
+               relative="com.starterkit.todo.views.List">
          </view>
       </perspectiveExtension>
    </extension>

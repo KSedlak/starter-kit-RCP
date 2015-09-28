@@ -16,8 +16,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		return sizeH;
 	}
 
-	private static int sizeW=800;
-	private static int sizeH=800;
+	private static int sizeW=1000;
+	private static int sizeH=700;
 	
 	public ApplicationWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
 		super(configurer);

@@ -1,5 +1,6 @@
 package com.starterkit.todo.Repository;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +36,20 @@ public class ToDoRepository {
 		 
 			return database.getListOfTask().stream()
 					.filter(task->task.getIsMovedToArchive().equals(true))
+					.collect(Collectors.toList());
+					
+		 }
+	 public List<ToDoObject> getByTaskText(String s){
+		 
+			return database.getListOfTask().stream()
+					.filter(task->task.getTask().toLowerCase().contains(s.toLowerCase()))
+					.collect(Collectors.toList());
+					
+		 }
+	 public List<ToDoObject> getActiveByTaskText(String s){
+		 
+			return getActiveTask().stream()
+					.filter(task->task.getTask().toLowerCase().contains(s.toLowerCase()))
 					.collect(Collectors.toList());
 					
 		 }
@@ -92,5 +107,11 @@ public class ToDoRepository {
 		 edited.setTask(t.getTask());
 		 return edited;
 	 }
+
+	public Collection getArchiveByTaskText(String text) {
+		return getArchive().stream()
+				.filter(task->task.getTask().toLowerCase().contains(text.toLowerCase()))
+				.collect(Collectors.toList());
+	}
 	 
 }

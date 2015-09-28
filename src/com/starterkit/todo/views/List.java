@@ -6,29 +6,28 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.jface.databinding.viewers.ViewerSupport;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.core.databinding.beans.BeanProperties;
 
-import com.starterkit.todo.ApplicationWorkbenchWindowAdvisor;
 import com.starterkit.todo.DataModel.ToDoObject;
-import com.starterkit.todo.Repository.ToDoRepository;
+import com.starterkit.todo.ResultModel.ResultModel;
 
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.core.databinding.property.value.IValueProperty;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
-import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 
 
@@ -42,36 +41,50 @@ public class List extends ViewPart {
 
   private TableViewer viewer;
 
-private java.util.List<ToDoObject> tableData=ToDoRepository.getInstance().getActiveTask();
 private WritableList input;
-
-
+ResultModel resultManager = ResultModel.getInstance();
+private Text searchText;
+Table table;
 public void createPartControl(Composite parent) {
 
     GridLayout layout = new GridLayout(3, false);
     parent.setLayout(layout);
     Label searchLabel = new Label(parent, SWT.NONE);
     searchLabel.setText("Search: ");
-    final Text searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
+    searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
     searchText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
         | GridData.HORIZONTAL_ALIGN_FILL));
     createViewer(parent);
+    new Label(parent, SWT.NONE);
+    new Label(parent, SWT.NONE);
+    
+    Menu menu = new Menu(parent);
+    parent.setMenu(menu);
 
     
   }
   private void createViewer(Composite parent) {
     {
     	Button btnNewButton = new Button(parent, SWT.NONE);
+    	btnNewButton.addSelectionListener(new SelectionAdapter() {
+    		@Override
+    		public void widgetSelected(SelectionEvent e) {
+    			resultManager.getActiveTaskByText(searchText.getText());	
+    			
+    		}
+    	});
     	btnNewButton.setText("szukaj");
     }
     viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
         | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
     createColumns(parent, viewer);
-    final Table table = viewer.getTable();
+    table= viewer.getTable();
+    
     table.setHeaderVisible(true);
     table.setLinesVisible(true);
+   
 
-	input = new WritableList(ToDoRepository.getInstance().getActiveTask(), ToDoObject.class);
+	input = resultManager.getActive();
 	
 	ViewerSupport.bind(
 			viewer,
@@ -80,7 +93,7 @@ public void createPartControl(Composite parent) {
 			"priority" })
 );
  
-    // make the selection available to other views
+   addSelectionListener();;
     getSite().setSelectionProvider(viewer);
     // set the sorter for the table
 
@@ -154,5 +167,17 @@ public void createPartControl(Composite parent) {
 
   public void setFocus() {
     viewer.getControl().setFocus();
+  }
+  
+  public void addSelectionListener(){
+	 getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
+		    public void selectionChanged(final SelectionChangedEvent event) {
+		        IStructuredSelection selection = (IStructuredSelection)event.getSelection();
+		        ToDoObject toDo =(ToDoObject) selection.getFirstElement();
+		        resultManager.setSelectedToDoItem(toDo);
+
+		    }
+		});
+	
   }
 } 
