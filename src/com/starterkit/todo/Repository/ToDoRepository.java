@@ -1,6 +1,6 @@
 package com.starterkit.todo.Repository;
 
-import java.util.Collection;
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -116,7 +116,7 @@ public class ToDoRepository {
 		 return edited;
 	 }
 
-	public Collection getArchiveByTaskText(String s) {
+	public List<ToDoObject> getArchiveByTaskText(String s) {
 		return getArchive().stream()
 				.filter(task->task.getTask().toLowerCase().contains(s.toLowerCase()) ||
 						task.getPriority().toString().toLowerCase().contains(s.toLowerCase()) ||

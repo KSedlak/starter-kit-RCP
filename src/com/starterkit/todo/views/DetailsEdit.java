@@ -142,6 +142,8 @@ public class DetailsEdit extends ViewPart {
 		}
 
 		createActions();
+		
+		//BINDING
 		DataBindingContext ctx = new DataBindingContext();
 
 		ctx.bindValue(
@@ -217,7 +219,7 @@ public class DetailsEdit extends ViewPart {
 			public void widgetSelected(SelectionEvent e) {
 				
 
-					ResultModel.getActiveTask();//refresh list
+					ResultModel.getActiveTask();//refresh list after move archive <--> active
 					ResultModel.getArchive();
 					
 				
