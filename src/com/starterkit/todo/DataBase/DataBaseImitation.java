@@ -1,6 +1,7 @@
 package com.starterkit.todo.DataBase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.starterkit.todo.DataModel.Priority;
@@ -35,6 +36,10 @@ public class DataBaseImitation {//singleton instance with toDo´s
 	    	  t5.setID(5);
 	    	  
 	    	  t2.setIsMovedToArchive(true);
+	    	  
+	    	  Date d=new Date();
+	    	  d.setYear(2022);
+	    	  t4.setCreationDate(d);
 	    	  
 	    	  listOfTask.add(t1);
 	     	  listOfTask.add(t2);

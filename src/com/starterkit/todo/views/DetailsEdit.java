@@ -1,8 +1,9 @@
 package com.starterkit.todo.views;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
@@ -21,7 +22,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
+import com.starterkit.todo.Converters.MyConverter;
 import com.starterkit.todo.DataModel.Priority;
+import com.starterkit.todo.DataModel.Status;
 import com.starterkit.todo.ResultModel.ResultModel;
 
 public class DetailsEdit extends ViewPart {
@@ -39,10 +42,11 @@ public class DetailsEdit extends ViewPart {
 	 * @param parent
 	 */
 	
-private	ResultModel resultManager = ResultModel.getInstance();
+	private WritableValue selected=ResultModel.getSelectedToDoItem();
 	private Combo priorityCombo;
 	private Button btnCheckButton;
 	private DateTime EndDateTime;
+	private Combo statusCombo;
 	@Override
 	public void createPartControl(Composite parent) {
 
@@ -57,7 +61,6 @@ private	ResultModel resultManager = ResultModel.getInstance();
 		{
 		
 			lblIdValue = new Label(container, SWT.NONE);
-			lblIdValue.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 			lblIdValue.setText("ids");
 		}
 		{
@@ -83,7 +86,7 @@ private	ResultModel resultManager = ResultModel.getInstance();
 			priorityCombo =new Combo(container, SWT.NONE);
 			priorityCombo.setItems(Priority.getValues());
 			priorityCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-			priorityCombo.select(Priority.Normal.ordinal());
+
 		}
 		{
 			Label lblNewLabel_4 = new Label(container, SWT.NONE);
@@ -102,8 +105,10 @@ private	ResultModel resultManager = ResultModel.getInstance();
 			lblNewLabel_5.setText("Status");
 		}
 		{
-			Combo combo = new Combo(container, SWT.NONE);
-			combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+			statusCombo = new Combo(container, SWT.NONE);
+			statusCombo.setItems(Status.getValues());
+			statusCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
 		}
 		{
 			Label lblEndDate = new Label(container, SWT.NONE);
@@ -117,15 +122,22 @@ private	ResultModel resultManager = ResultModel.getInstance();
 			gd_dateTime.widthHint = 199;
 			EndDateTime.setLayoutData(gd_dateTime);
 		}
-		new Label(container, SWT.NONE);
 		{
-			btnCheckButton = new Button(container, SWT.CHECK);
-			btnCheckButton.addSelectionListener(new SelectionAdapter() {
+			Button btnNewButton = new Button(container, SWT.NONE);
+			btnNewButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
+					text.setText(BeanProperties.value("priority").observeDetail(ResultModel.getSelectedToDoItem()).getValue()+"");
 				}
 			});
+			btnNewButton.setText("New Button");
+		}
+		{
+			btnCheckButton = new Button(container, SWT.CHECK);
+			
+
 			btnCheckButton.setText("is moved to Archive");
+		
 		}
 
 		createActions();
@@ -137,15 +149,15 @@ private	ResultModel resultManager = ResultModel.getInstance();
 		ctx.bindValue(
 				WidgetProperties.text(SWT.Modify).observe(text), 
 				BeanProperties.value("task")
-				.observeDetail(resultManager.getSelectedToDoItem()));
+		        .observeDetail(selected));
 
-		
+
 		
 		ctx.bindValue(
 				WidgetProperties.selection().observe(btnCheckButton), 
 				BeanProperties.value("isMovedToArchive")
-				.observeDetail(resultManager.getSelectedToDoItem()));
-
+		 .observeDetail(selected));
+		
 		DateTimeSelectionProperty dateTimeSelectionProperty = new DateTimeSelectionProperty();
 		 ISWTObservableValue creaDateTimeObservableValue = dateTimeSelectionProperty.observe(creat_dateTime);
 		 ISWTObservableValue endDateTimeObservableValue = dateTimeSelectionProperty.observe(EndDateTime);
@@ -153,19 +165,62 @@ private	ResultModel resultManager = ResultModel.getInstance();
 		ctx.bindValue(		
 			creaDateTimeObservableValue,
 				BeanProperties.value("creationDate")
-				.observeDetail(resultManager.getSelectedToDoItem()));
+				 .observeDetail(selected));
 		
 		ctx.bindValue(		
 				creaDateTimeObservableValue,
 					BeanProperties.value("endDate")
-					.observeDetail(resultManager.getSelectedToDoItem()));
+				 .observeDetail(selected));
+
+
+
+
+
+		
+	    UpdateValueStrategy pioToInt = new UpdateValueStrategy();
+	    pioToInt.setConverter(MyConverter.createPriorityToIntConverter());
+
+	    UpdateValueStrategy intToPrio = new UpdateValueStrategy();
+	    intToPrio.setConverter(MyConverter.createIntToPriority());
+	  
+	    ctx.bindValue(
+	    		WidgetProperties.singleSelectionIndex().observe(priorityCombo),
+	    		BeanProperties.value("priority").observeDetail(selected),
+	    		intToPrio,pioToInt);
+
+	
+	    
+	    UpdateValueStrategy statToInt = new UpdateValueStrategy();
+	    statToInt.setConverter(MyConverter.createStatusToIntConverter());
+
+	    UpdateValueStrategy intToStat = new UpdateValueStrategy();
+	    intToStat.setConverter(MyConverter.createIntToStatus());
+	  
+	    ctx.bindValue(
+	    		WidgetProperties.singleSelectionIndex().observe(statusCombo),
+	    		BeanProperties.value("status").observeDetail(selected),
+	    		intToStat,statToInt);
 
 
 			
-				 
+			
 		
-		
+		btnCheckButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				
+				if(btnCheckButton.getSelection()){
+				
+					
+				}
+			}
+		});
 	}
+	
+
+
+
+	
+	
 
 	/**
 	 * Create the actions.
@@ -194,5 +249,6 @@ private	ResultModel resultManager = ResultModel.getInstance();
 	public void setFocus() {
 		// Set the focus
 	}
+
 
 }

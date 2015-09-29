@@ -44,6 +44,8 @@ public ToDoObject(Priority priority, String task, Status status) {
 	this.creationDate = new Date();
 	this.isMovedToArchive=false;
 }
+
+
 public void addPropertyChangeListener(String propertyName,
 	      PropertyChangeListener listener) {
 	    propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
@@ -52,6 +54,7 @@ public void addPropertyChangeListener(String propertyName,
 	  public void removePropertyChangeListener(PropertyChangeListener listener) {
 	    propertyChangeSupport.removePropertyChangeListener(listener);
 	  }
+
 
 public Date getCreationDate() {
 	return creationDate;
@@ -64,9 +67,10 @@ public Priority getPriority() {
 	return priority;
 }
 public void setPriority(Priority priority) {
-	  propertyChangeSupport.firePropertyChange("priority", this.priority,
-			  this.priority = priority);
+	propertyChangeSupport.firePropertyChange("priority", this.priority, this.priority = priority);
 }
+
+
 public String getTask() {
 	return task;
 }
@@ -80,7 +84,7 @@ public Status getStatus() {
 }
 public void setStatus(Status status) {
 	  propertyChangeSupport.firePropertyChange("status", this.status,
-				this.status = status);
+				this.status =status);
 }
 public Date getEndDate() {
 	return endDate;
