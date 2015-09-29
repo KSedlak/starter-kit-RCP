@@ -4,8 +4,6 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.value.WritableValue;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.internal.databinding.swt.DateTimeSelectionProperty;
@@ -137,9 +135,6 @@ public class DetailsEdit extends ViewPart {
 		}
 
 		createActions();
-		initializeToolBar();
-		initializeMenu();
-		
 		DataBindingContext ctx = new DataBindingContext();
 
 		ctx.bindValue(
@@ -155,6 +150,7 @@ public class DetailsEdit extends ViewPart {
 		 .observeDetail(selected));
 		
 		DateTimeSelectionProperty dateTimeSelectionProperty = new DateTimeSelectionProperty();
+		
 		 ISWTObservableValue creaDateTimeObservableValue = dateTimeSelectionProperty.observe(creat_dateTime);
 		 ISWTObservableValue endDateTimeObservableValue = dateTimeSelectionProperty.observe(EndDateTime);
 		 
@@ -164,7 +160,7 @@ public class DetailsEdit extends ViewPart {
 				 .observeDetail(selected));
 		
 		ctx.bindValue(		
-				creaDateTimeObservableValue,
+				endDateTimeObservableValue,
 					BeanProperties.value("endDate")
 				 .observeDetail(selected));
 
@@ -235,21 +231,7 @@ public class DetailsEdit extends ViewPart {
 		// Create the actions
 	}
 
-	/**
-	 * Initialize the toolbar.
-	 */
-	private void initializeToolBar() {
-		IToolBarManager toolbarManager = getViewSite().getActionBars()
-				.getToolBarManager();
-	}
 
-	/**
-	 * Initialize the menu.
-	 */
-	private void initializeMenu() {
-		IMenuManager menuManager = getViewSite().getActionBars()
-				.getMenuManager();
-	}
 
 	@Override
 	public void setFocus() {

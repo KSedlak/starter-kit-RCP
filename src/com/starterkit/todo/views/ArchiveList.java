@@ -6,6 +6,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.list.WritableList;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.databinding.viewers.ViewerSupport;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -16,6 +20,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
@@ -39,7 +44,7 @@ public class ArchiveList extends ViewPart {
   private TableViewer viewer;
   private Text searchText;
   private WritableList input;
-
+  private ToDoObject removeable;
 
 
 public void createPartControl(Composite parent) {
@@ -77,7 +82,7 @@ public void createPartControl(Composite parent) {
     table.setLinesVisible(true);
     addSelectionListener();
 	input = ResultModel.getArchiveList();
-		
+		addContextMenu();
 		ViewerSupport.bind(
 				viewer,
 				input,
@@ -170,4 +175,35 @@ public void createPartControl(Composite parent) {
 			    }
 			});
   }
+  private void addContextMenu() {
+	  
+	  Action action = new Action("Usun") {
+public void run(){
+		  
+		ResultModel.remove(removeable);
+}
+	};
+	  MenuManager menuMgr = new MenuManager();
+
+      Menu menu = menuMgr.createContextMenu(viewer.getControl());
+      menuMgr.addMenuListener(new IMenuListener() {
+          @Override
+          public void menuAboutToShow(IMenuManager manager) {
+              // IWorkbench wb = PlatformUI.getWorkbench();
+              // IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+              if (viewer.getSelection().isEmpty()) {
+                  return;
+              }
+
+              if (viewer.getSelection() instanceof IStructuredSelection) {
+                  IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+                  removeable = (ToDoObject)selection.getFirstElement();
+                      manager.add(action);                	 		                
+                  }
+              }
+          
+      });
+      menuMgr.setRemoveAllWhenShown(true);
+      viewer.getControl().setMenu(menu);
+}
 } 

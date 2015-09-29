@@ -108,4 +108,10 @@ public class ResultModel {
 		archiveList.addAll(repo.getArchiveByTaskText(text));
 		
 	}
+	
+	public static void remove(ToDoObject x){
+		repo.remove(x);
+		getArchive();
+		getActiveTask();
+	}
 }

@@ -1,11 +1,6 @@
 package com.starterkit.todo.views;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import org.eclipse.core.databinding.observable.list.WritableList;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
@@ -42,7 +37,7 @@ public class AddTask extends ViewPart{
 	private Combo  priorityCombo;
 	private Combo  statusCombo;
 	private Text text;
-	private ResultModel resultManager = ResultModel.getInstance();
+
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -100,7 +95,7 @@ public class AddTask extends ViewPart{
 		        			);
 		        	//to repo
 				  	ToDoRepository.getInstance().save(toAdd);
-				  	resultManager.getActiveTask();
+				  	ResultModel.getActiveTask();
 				}
 			});
 			addButton.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
@@ -111,8 +106,7 @@ public class AddTask extends ViewPart{
 		}
 
 		createActions();
-		initializeToolBar();
-		initializeMenu();
+		
 	}
  
 
@@ -123,21 +117,7 @@ public class AddTask extends ViewPart{
 		// Create the actions
 	}
 
-	/**
-	 * Initialize the toolbar.
-	 */
-	private void initializeToolBar() {
-		IToolBarManager toolbarManager = getViewSite().getActionBars()
-				.getToolBarManager();
-	}
 
-	/**
-	 * Initialize the menu.
-	 */
-	private void initializeMenu() {
-		IMenuManager menuManager = getViewSite().getActionBars()
-				.getMenuManager();
-	}
 
 	@Override
 	public void setFocus() {

@@ -1,6 +1,7 @@
 package com.starterkit.todo.DataBase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,8 @@ public class DataBaseImitation {//singleton instance with toDo´s
 	    
 
 
-	      private DataBaseImitation() { 
+
+		private DataBaseImitation() { 
 	    	  listOfTask=new ArrayList<ToDoObject>();
 	    	  
 	    	  //sample objects
@@ -37,9 +39,8 @@ public class DataBaseImitation {//singleton instance with toDo´s
 	    	  
 	    	  t2.setIsMovedToArchive(true);
 	    	  
-	    	  Date d=new Date();
-	    	  d.setYear(2022);
-	    	  t4.setCreationDate(d);
+	    	  Date d=new Date();	    
+	    	  t4.setCreationDate(setDateToDate(d, 2011));
 	    	  
 	    	  listOfTask.add(t1);
 	     	  listOfTask.add(t2);
@@ -65,6 +66,13 @@ public class DataBaseImitation {//singleton instance with toDo´s
 		public List<ToDoObject> getListOfTask() {
 			return listOfTask;
 		} 
+		public Date setDateToDate(Date d, int year){
+			 Calendar c = Calendar.getInstance();
+	    	  c.setTime(d);
+	    	  c.set(Calendar.YEAR, year);
+	    	  d = c.getTime();
+		return d;
+		}
 		
 	      
 	}
