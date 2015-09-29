@@ -42,14 +42,22 @@ public class ToDoRepository {
 	 public List<ToDoObject> getByTaskText(String s){
 		 
 			return database.getListOfTask().stream()
-					.filter(task->task.getTask().toLowerCase().contains(s.toLowerCase()))
+					.filter(
+							task->task.getTask().toLowerCase().contains(s.toLowerCase()) ||
+							task.getPriority().toString().toLowerCase().contains(s.toLowerCase()) ||
+							task.getStatus().toString().toLowerCase().contains(s.toLowerCase())
+							)
 					.collect(Collectors.toList());
 					
 		 }
 	 public List<ToDoObject> getActiveByTaskText(String s){
 		 
 			return getActiveTask().stream()
-					.filter(task->task.getTask().toLowerCase().contains(s.toLowerCase()))
+					.filter(
+							task->task.getTask().toLowerCase().contains(s.toLowerCase()) ||
+							task.getPriority().toString().toLowerCase().contains(s.toLowerCase()) ||
+							task.getStatus().toString().toLowerCase().contains(s.toLowerCase())
+							)
 					.collect(Collectors.toList());
 					
 		 }
@@ -108,9 +116,12 @@ public class ToDoRepository {
 		 return edited;
 	 }
 
-	public Collection getArchiveByTaskText(String text) {
+	public Collection getArchiveByTaskText(String s) {
 		return getArchive().stream()
-				.filter(task->task.getTask().toLowerCase().contains(text.toLowerCase()))
+				.filter(task->task.getTask().toLowerCase().contains(s.toLowerCase()) ||
+						task.getPriority().toString().toLowerCase().contains(s.toLowerCase()) ||
+						task.getStatus().toString().toLowerCase().contains(s.toLowerCase())
+						)
 				.collect(Collectors.toList());
 	}
 	 

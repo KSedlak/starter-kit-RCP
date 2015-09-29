@@ -24,6 +24,7 @@ import com.starterkit.todo.Converters.MyConverter;
 import com.starterkit.todo.DataModel.Priority;
 import com.starterkit.todo.DataModel.Status;
 import com.starterkit.todo.ResultModel.ResultModel;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class DetailsEdit extends ViewPart {
 
@@ -52,6 +53,7 @@ public class DetailsEdit extends ViewPart {
 		container.setLayout(new GridLayout(2, false));
 		{
 			Label lblNewLabel = new Label(container, SWT.NONE);
+			lblNewLabel.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 			lblNewLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 			lblNewLabel.setAlignment(SWT.RIGHT);
 			lblNewLabel.setText("ID: ");
@@ -65,6 +67,7 @@ public class DetailsEdit extends ViewPart {
 		}
 		{
 			Label lblNewLabel_2 = new Label(container, SWT.NONE);
+			lblNewLabel_2.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 			lblNewLabel_2.setAlignment(SWT.RIGHT);
 			lblNewLabel_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 			lblNewLabel_2.setText("CreateDate: ");
@@ -72,14 +75,15 @@ public class DetailsEdit extends ViewPart {
 		{
 			creat_dateTime = new DateTime(container, SWT.BORDER);
 			GridData gd_dateTime = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
-			gd_dateTime.widthHint = 133;
+			gd_dateTime.widthHint = 138;
 			creat_dateTime.setLayoutData(gd_dateTime);
 		}
 		{
 			Label lblNewLabel_3 = new Label(container, SWT.NONE);
+			lblNewLabel_3.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 			lblNewLabel_3.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 			lblNewLabel_3.setAlignment(SWT.RIGHT);
-			lblNewLabel_3.setText("Priority");
+			lblNewLabel_3.setText("Priority: ");
 		}
 		{
 	
@@ -93,9 +97,10 @@ public class DetailsEdit extends ViewPart {
 		}
 		{
 			Label lblNewLabel_4 = new Label(container, SWT.NONE);
+			lblNewLabel_4.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 			lblNewLabel_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 			lblNewLabel_4.setAlignment(SWT.RIGHT);
-			lblNewLabel_4.setText("Task");
+			lblNewLabel_4.setText("Task: ");
 		}
 		{
 			text = new Text(container, SWT.BORDER);
@@ -103,9 +108,10 @@ public class DetailsEdit extends ViewPart {
 		}
 		{
 			Label lblNewLabel_5 = new Label(container, SWT.NONE);
+			lblNewLabel_5.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 			lblNewLabel_5.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 			lblNewLabel_5.setAlignment(SWT.RIGHT);
-			lblNewLabel_5.setText("Status");
+			lblNewLabel_5.setText("Status: ");
 		}
 		{
 			statusCombo = new Combo(container, SWT.NONE);
@@ -115,6 +121,7 @@ public class DetailsEdit extends ViewPart {
 		}
 		{
 			Label lblEndDate = new Label(container, SWT.NONE);
+			lblEndDate.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 			lblEndDate.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 			lblEndDate.setAlignment(SWT.RIGHT);
 			lblEndDate.setText("End date: ");
@@ -122,7 +129,7 @@ public class DetailsEdit extends ViewPart {
 		{
 			EndDateTime = new DateTime(container, SWT.BORDER);
 			GridData gd_dateTime = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-			gd_dateTime.widthHint = 135;
+			gd_dateTime.widthHint = 142;
 			EndDateTime.setLayoutData(gd_dateTime);
 		}
 		new Label(container, SWT.NONE);
