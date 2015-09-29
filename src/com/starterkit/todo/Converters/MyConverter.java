@@ -97,4 +97,49 @@ public class MyConverter {
 
 	    };
 }
+
+	public static IConverter createStringToInt() {
+		return new IConverter() {
+
+	        @Override
+	        public Object convert(Object value) {
+	  
+	            return Integer.parseInt((String)value);
+	        }
+
+	        @Override
+	        public Object getFromType() {
+	            return String.class;
+	        }
+
+	        @Override
+	        public Object getToType() {
+	            return Integer.class;
+	        }
+
+	    };
+	}
+
+	public static IConverter createIntToString() {
+	    return new IConverter() {
+
+	        @Override
+	        public Object convert(Object value) {
+	        int val=(int)value;
+	            return val+"";
+	
+	        }
+
+	        @Override
+	        public Object getFromType() {
+	            return Integer.class;
+	        }
+
+	        @Override
+	        public Object getToType() {
+	            return String.class;
+	        }
+
+	    };
+	}
 }

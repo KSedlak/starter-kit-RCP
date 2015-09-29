@@ -31,7 +31,6 @@ public class DetailsEdit extends ViewPart {
 
 	public static final String ID = "com.starterkit.todo.views.DetailsEdit"; //$NON-NLS-1$
 	private Text text;
-	private Label lblIdValue;
 	DateTime creat_dateTime;
 
 	public DetailsEdit() {
@@ -47,6 +46,7 @@ public class DetailsEdit extends ViewPart {
 	private Button btnCheckButton;
 	private DateTime EndDateTime;
 	private Combo statusCombo;
+	private Text text_ID;
 	@Override
 	public void createPartControl(Composite parent) {
 
@@ -59,9 +59,11 @@ public class DetailsEdit extends ViewPart {
 			lblNewLabel.setText("ID: ");
 		}
 		{
-		
-			lblIdValue = new Label(container, SWT.NONE);
-			lblIdValue.setText("ids");
+			text_ID = new Text(container, SWT.BORDER);
+			text_ID.setEnabled(false);
+			GridData gd_text_ID = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+			gd_text_ID.widthHint = 39;
+			text_ID.setLayoutData(gd_text_ID);
 		}
 		{
 			Label lblNewLabel_2 = new Label(container, SWT.NONE);
@@ -71,8 +73,8 @@ public class DetailsEdit extends ViewPart {
 		}
 		{
 			creat_dateTime = new DateTime(container, SWT.BORDER);
-			GridData gd_dateTime = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-			gd_dateTime.widthHint = 197;
+			GridData gd_dateTime = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+			gd_dateTime.widthHint = 133;
 			creat_dateTime.setLayoutData(gd_dateTime);
 		}
 		{
@@ -85,7 +87,10 @@ public class DetailsEdit extends ViewPart {
 	
 			priorityCombo =new Combo(container, SWT.NONE);
 			priorityCombo.setItems(Priority.getValues());
-			priorityCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+			GridData gd_priorityCombo = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+			gd_priorityCombo.widthHint = 191;
+			gd_priorityCombo.heightHint = 5;
+			priorityCombo.setLayoutData(gd_priorityCombo);
 
 		}
 		{
@@ -119,19 +124,10 @@ public class DetailsEdit extends ViewPart {
 		{
 			EndDateTime = new DateTime(container, SWT.BORDER);
 			GridData gd_dateTime = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-			gd_dateTime.widthHint = 199;
+			gd_dateTime.widthHint = 135;
 			EndDateTime.setLayoutData(gd_dateTime);
 		}
-		{
-			Button btnNewButton = new Button(container, SWT.NONE);
-			btnNewButton.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					text.setText(BeanProperties.value("priority").observeDetail(ResultModel.getSelectedToDoItem()).getValue()+"");
-				}
-			});
-			btnNewButton.setText("New Button");
-		}
+		new Label(container, SWT.NONE);
 		{
 			btnCheckButton = new Button(container, SWT.CHECK);
 			
@@ -202,14 +198,24 @@ public class DetailsEdit extends ViewPart {
 	    		intToStat,statToInt);
 
 
-			
+	    UpdateValueStrategy stringToInt = new UpdateValueStrategy();
+	    stringToInt.setConverter(MyConverter.createStringToInt());
+
+	    UpdateValueStrategy intToString = new UpdateValueStrategy();
+	    intToString.setConverter(MyConverter.createIntToString());
+	  
+	    ctx.bindValue(
+	    		WidgetProperties.text().observe(text_ID),
+	    		BeanProperties.value("ID").observeDetail(selected),
+	    stringToInt,intToString);	
 			
 		
 		btnCheckButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				
 				if(btnCheckButton.getSelection()){
-				
+					ResultModel.getActiveTask();//refresh list
+					ResultModel.getArchive();
 					
 				}
 			}

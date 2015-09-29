@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.value.WritableValue;
-import org.eclipse.jface.databinding.viewers.ObservableValueEditingSupport;
 
 import com.starterkit.todo.DataModel.Priority;
 import com.starterkit.todo.DataModel.Status;
@@ -48,13 +47,13 @@ public class ResultModel {
 		active.addAll(repo.getAllToDos());
 	}
 
-	public void getArchive() {
+	public static void getArchive() {
 		archiveList.clear();
 		archiveList.addAll(repo.getArchive());
 
 	}
 
-	public void getActiveTask() {
+	public static void getActiveTask() {
 		active.clear();
 		active.addAll(repo.getActiveTask());
 
