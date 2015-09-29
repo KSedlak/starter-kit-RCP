@@ -7,8 +7,10 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.jface.databinding.viewers.ViewerSupport;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.layout.GridData;
@@ -18,9 +20,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
-import com.starterkit.todo.ApplicationWorkbenchWindowAdvisor;
 import com.starterkit.todo.DataModel.ToDoObject;
-import com.starterkit.todo.Repository.ToDoRepository;
 import com.starterkit.todo.ResultModel.ResultModel;
 
 import org.eclipse.swt.widgets.Button;
@@ -75,8 +75,8 @@ public void createPartControl(Composite parent) {
     final Table table = viewer.getTable();
     table.setHeaderVisible(true);
     table.setLinesVisible(true);
-
-	input = resultManager.getArchiveList();
+    addSelectionListener();
+	input = ResultModel.getArchiveList();
 		
 		ViewerSupport.bind(
 				viewer,
@@ -103,7 +103,7 @@ public void createPartControl(Composite parent) {
 
   // create the columns for the table
   private void createColumns(final Composite parent, final TableViewer viewer) {
-	  int column=3;
+
 	  int columnSize=100;
     String[] titles = { "Task", "Status", "Priority"};
     int[] bounds = { columnSize,columnSize, columnSize};
@@ -155,7 +155,19 @@ public void createPartControl(Composite parent) {
     return viewerColumn;
   }
 
-  public void setFocus() {
-    viewer.getControl().setFocus();
+	@Override
+	 public void setFocus() {
+		    viewer.getControl().setFocus();
+		  }
+ 
+  public void addSelectionListener(){
+	  viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			    public void selectionChanged(final SelectionChangedEvent event) {
+			        IStructuredSelection selection = (IStructuredSelection)event.getSelection();
+			        ToDoObject toDo =(ToDoObject) selection.getFirstElement();
+			        ResultModel.setSelectedToDoItem(toDo);
+
+			    }
+			});
   }
 } 

@@ -213,11 +213,11 @@ public class DetailsEdit extends ViewPart {
 		btnCheckButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				
-				if(btnCheckButton.getSelection()){
+
 					ResultModel.getActiveTask();//refresh list
 					ResultModel.getArchive();
 					
-				}
+				
 			}
 		});
 	}

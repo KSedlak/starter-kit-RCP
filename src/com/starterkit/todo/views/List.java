@@ -84,7 +84,7 @@ public void createPartControl(Composite parent) {
     table.setLinesVisible(true);
    
 
-	input = resultManager.getActive();
+	input = ResultModel.getActive();
 	
 	ViewerSupport.bind(
 			viewer,
@@ -93,7 +93,7 @@ public void createPartControl(Composite parent) {
 			"priority" })
 );
  
-   addSelectionListener();;
+   addSelectionListener();
     getSite().setSelectionProvider(viewer);
     // set the sorter for the table
 
@@ -111,9 +111,8 @@ public void createPartControl(Composite parent) {
     return viewer;
   }
 
-  // create the columns for the table
   private void createColumns(final Composite parent, final TableViewer viewer) {
-	  int column=3;
+
 
 	  int columnSize=100;
     String[] titles = { "Task", "Status", "Priority"};
@@ -128,7 +127,6 @@ public void createPartControl(Composite parent) {
       }
     });
 
-    // second column is for the last name
     col = createTableViewerColumn(titles[1], bounds[1], 1);
     col.setLabelProvider(new ColumnLabelProvider() {
       @Override
@@ -138,7 +136,7 @@ public void createPartControl(Composite parent) {
         }
     });
 
-    // now the gender
+
     col = createTableViewerColumn(titles[2], bounds[2], 2);
     col.setLabelProvider(new ColumnLabelProvider() {
       @Override
@@ -174,7 +172,7 @@ public void createPartControl(Composite parent) {
 		    public void selectionChanged(final SelectionChangedEvent event) {
 		        IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 		        ToDoObject toDo =(ToDoObject) selection.getFirstElement();
-		        resultManager.setSelectedToDoItem(toDo);
+		        ResultModel.setSelectedToDoItem(toDo);
 
 		    }
 		});
