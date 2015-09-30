@@ -21,10 +21,10 @@ public class ResultModel {
 	private ResultModel() {
 		repo = ToDoRepository.getInstance();
 		active = new WritableList();
-		 archiveList = new WritableList();
-		 selectedToDoItem=new WritableValue(); 
-		 getActiveTask();
-		 getArchive();
+		archiveList = new WritableList();
+		selectedToDoItem = new WritableValue();
+		getActiveTask();
+		getArchive();
 	};
 
 	public static WritableValue getSelectedToDoItem() {
@@ -42,6 +42,7 @@ public class ResultModel {
 	public static ResultModel getResult() {
 		return result;
 	}
+
 	public void getAllToDos() {
 		active.clear();
 		active.addAll(repo.getAllToDos());
@@ -85,7 +86,7 @@ public class ResultModel {
 		ResultModel.archiveList = archive;
 	}
 
-	public void getActiveTaskByText(String s) {
+	public static void getActiveTaskByText(String s) {
 
 		active.clear();
 		active.addAll(repo.getActiveByTaskText(s));
@@ -103,14 +104,19 @@ public class ResultModel {
 		return result;
 	}
 
-	public void getArchiveTaskByText(String text) {
+	public static void getArchiveTaskByText(String text) {
 		archiveList.clear();
 		archiveList.addAll(repo.getArchiveByTaskText(text));
-		
+
 	}
-	
-	public static void remove(ToDoObject x){
+
+	public static void remove(ToDoObject x) {
 		repo.remove(x);
+		getArchive();
+		getActiveTask();
+	}
+	public static void add(ToDoObject x) {
+		repo.save(x);
 		getArchive();
 		getActiveTask();
 	}

@@ -1,4 +1,4 @@
-package com.starterkit.todo;
+package com.starterkit.todo.rcpApplication;
 
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;

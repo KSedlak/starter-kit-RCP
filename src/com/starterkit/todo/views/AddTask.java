@@ -11,13 +11,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.wb.swt.SWTResourceManager;
-
 import com.starterkit.todo.DataModel.Priority;
 import com.starterkit.todo.DataModel.Status;
 import com.starterkit.todo.DataModel.ToDoObject;
-import com.starterkit.todo.Repository.ToDoRepository;
 import com.starterkit.todo.ResultModel.ResultModel;
-
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
@@ -94,8 +91,7 @@ public class AddTask extends ViewPart{
 		        			Status.valueOf(statusCombo.getText())
 		        			);
 		        	//to repo
-				  	ToDoRepository.getInstance().save(toAdd);
-				  	ResultModel.getActiveTask();
+				  	ResultModel.add(toAdd);
 				}
 			});
 			addButton.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
@@ -104,20 +100,7 @@ public class AddTask extends ViewPart{
 
 			 
 		}
-
-		createActions();
-		
 	}
- 
-
-	/**
-	 * Create the actions.
-	 */
-	private void createActions() {
-		// Create the actions
-	}
-
-
 
 	@Override
 	public void setFocus() {

@@ -1,4 +1,4 @@
-package com.starterkit.todo;
+package com.starterkit.todo.rcpApplication;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.application.ActionBarAdvisor;

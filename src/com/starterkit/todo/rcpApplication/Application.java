@@ -1,4 +1,4 @@
-package com.starterkit.todo;
+package com.starterkit.todo.rcpApplication;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;

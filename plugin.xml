@@ -7,7 +7,7 @@
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-               class="com.starterkit.todo.Application">
+               class="com.starterkit.todo.rcpApplication.Application">
          </run>
       </application>
    </extension>

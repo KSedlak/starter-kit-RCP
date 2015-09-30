@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Todo
 Bundle-SymbolicName: com.starterkit.todo;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.starterkit.todo.Activator
+Bundle-Activator: com.starterkit.todo.rcpApplication.Activator
 Bundle-Vendor: STARTERKIT
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

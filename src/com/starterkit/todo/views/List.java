@@ -1,6 +1,5 @@
 package com.starterkit.todo.views;
 
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
@@ -30,184 +29,179 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
-
-
-
-
-
 public class List extends ViewPart {
 	public List() {
 	}
 
-  public static final String ID = "com.starterkit.todo.views.List";
+	public static final String ID = "com.starterkit.todo.views.List";
 
-  private TableViewer viewer;
- private ToDoObject removeable;
-private WritableList input;
-ResultModel resultManager = ResultModel.getInstance();
-private Text searchText;
-Table table;
-public void createPartControl(Composite parent) {
+	private TableViewer viewer;
+	private ToDoObject removeable;
+	private WritableList input;
+	private Text searchText;
+	private Action action;
+	Table table;
 
-    GridLayout layout = new GridLayout(3, false);
-    parent.setLayout(layout);
-    Label searchLabel = new Label(parent, SWT.NONE);
-    searchLabel.setText("Search: ");
-    searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
-    searchText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
-        | GridData.HORIZONTAL_ALIGN_FILL));
-    createViewer(parent);
-    new Label(parent, SWT.NONE);
-    new Label(parent, SWT.NONE);
+	public void createPartControl(Composite parent) {
 
-    
-  }
-  private void createViewer(Composite parent) {
-    {
-    	Button btnNewButton = new Button(parent, SWT.NONE);
-    	btnNewButton.addSelectionListener(new SelectionAdapter() {
-    		@Override
-    		public void widgetSelected(SelectionEvent e) {
-    			resultManager.getActiveTaskByText(searchText.getText());	
-    			
-    		}
-    	});
-    	btnNewButton.setText("szukaj");
-    }
-    viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
-        | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
-    createColumns(parent, viewer);
-    table= viewer.getTable();
-    
-    table.setHeaderVisible(true);
-    table.setLinesVisible(true);
-   
+		GridLayout layout = new GridLayout(3, false);
+		parent.setLayout(layout);
+		Label searchLabel = new Label(parent, SWT.NONE);
+		searchLabel.setText("Search: ");
+		searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
+		searchText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
+				| GridData.HORIZONTAL_ALIGN_FILL));
+		createViewer(parent);
+		new Label(parent, SWT.NONE);
+		new Label(parent, SWT.NONE);
 
-	input = ResultModel.getActive();
-	
-	addContextMenu();
-	
-	ViewerSupport.bind(
-			viewer,
-			input,
-			BeanProperties.values(new String[] { "task", "status",
-			"priority" })
-);
- 
-   addSelectionListener();
-    getSite().setSelectionProvider(viewer);
-    // set the sorter for the table
+	}
 
-    // define layout for the viewer
-    GridData gridData = new GridData();
-    gridData.verticalAlignment = GridData.FILL;
-    gridData.horizontalSpan = 3;
-    gridData.grabExcessHorizontalSpace = true;
-    gridData.grabExcessVerticalSpace = true;
-    gridData.horizontalAlignment = GridData.FILL;
-    viewer.getControl().setLayoutData(gridData);
-  }
+	private void createViewer(Composite parent) {
+		{
+			Button btnNewButton = new Button(parent, SWT.NONE);
+			btnNewButton.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					ResultModel.getActiveTaskByText(searchText.getText());
 
-  private void addContextMenu() {
-	  
-	  Action action = new Action("Usun") {
-public void run(){
-		  
-		ResultModel.remove(removeable);
-}
-	};
-	  MenuManager menuMgr = new MenuManager();
+				}
+			});
+			btnNewButton.setText("szukaj");
+		}
+		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
+				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
+		createColumns(parent, viewer);
+		table = viewer.getTable();
 
-      Menu menu = menuMgr.createContextMenu(viewer.getControl());
-      menuMgr.addMenuListener(new IMenuListener() {
-          @Override
-          public void menuAboutToShow(IMenuManager manager) {
-              // IWorkbench wb = PlatformUI.getWorkbench();
-              // IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
-              if (viewer.getSelection().isEmpty()) {
-                  return;
-              }
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 
-              if (viewer.getSelection() instanceof IStructuredSelection) {
-                  IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-                  removeable = (ToDoObject)selection.getFirstElement();
-                      manager.add(action);                	 		                
-                  }
-              }
-          
-      });
-      menuMgr.setRemoveAllWhenShown(true);
-      viewer.getControl().setMenu(menu);
-}
-public TableViewer getViewer() {
-    return viewer;
-  }
+		input = ResultModel.getActive();
 
-  private void createColumns(final Composite parent, final TableViewer viewer) {
+		addContextMenu();
 
+		ViewerSupport.bind(
+				viewer,
+				input,
+				BeanProperties.values(new String[] { "task", "status",
+						"priority" }));
 
-	  int columnSize=100;
-    String[] titles = { "Task", "Status", "Priority"};
-    int[] bounds = { columnSize,columnSize, columnSize};
-    // first column is for the first name
-    TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
-    col.setLabelProvider(new ColumnLabelProvider() {
-      @Override
-      public String getText(Object element) {
-        ToDoObject t = (ToDoObject) element;
-        return t.getTask();
-      }
-    });
+		addSelectionListener();
+		getSite().setSelectionProvider(viewer);
+		// set the sorter for the table
 
-    col = createTableViewerColumn(titles[1], bounds[1], 1);
-    col.setLabelProvider(new ColumnLabelProvider() {
-      @Override
-      public String getText(Object element) {
-          ToDoObject t = (ToDoObject) element;
-          return t.getStatus().toString();
-        }
-    });
+		// define layout for the viewer
+		GridData gridData = new GridData();
+		gridData.verticalAlignment = GridData.FILL;
+		gridData.horizontalSpan = 3;
+		gridData.grabExcessHorizontalSpace = true;
+		gridData.grabExcessVerticalSpace = true;
+		gridData.horizontalAlignment = GridData.FILL;
+		viewer.getControl().setLayoutData(gridData);
+	}
 
+	private void addContextMenu() {
 
-    col = createTableViewerColumn(titles[2], bounds[2], 2);
-    col.setLabelProvider(new ColumnLabelProvider() {
-      @Override
-      public String getText(Object element) {
-          ToDoObject t = (ToDoObject) element;
-          return t.getPriority().toString();
-        }
-    });
+		action = new Action("Usun") {
+			public void run() {
 
+				ResultModel.remove(removeable);
+			}
+		};
+		MenuManager menuMgr = new MenuManager();
 
+		Menu menu = menuMgr.createContextMenu(viewer.getControl());
+		menuMgr.addMenuListener(new IMenuListener() {
+			@Override
+			public void menuAboutToShow(IMenuManager manager) {
+				// IWorkbench wb = PlatformUI.getWorkbench();
+				// IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+				if (viewer.getSelection().isEmpty()) {
+					return;
+				}
 
+				if (viewer.getSelection() instanceof IStructuredSelection) {
+					IStructuredSelection selection = (IStructuredSelection) viewer
+							.getSelection();
+					removeable = (ToDoObject) selection.getFirstElement();
+					manager.add(action);
+				}
+			}
 
-
-  }
-
-  private TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber) {
-    final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
-        SWT.NONE);
-    final TableColumn column = viewerColumn.getColumn();
-    column.setText(title);
-    column.setWidth(bound);
-    column.setResizable(true);
-    column.setMoveable(true);
-    return viewerColumn;
-  }
-
-  public void setFocus() {
-    viewer.getControl().setFocus();
-  }
-  
-  public void addSelectionListener(){
-	 getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
-		    public void selectionChanged(final SelectionChangedEvent event) {
-		        IStructuredSelection selection = (IStructuredSelection)event.getSelection();
-		        ToDoObject toDo =(ToDoObject) selection.getFirstElement();
-		        ResultModel.setSelectedToDoItem(toDo);
-
-		    }
 		});
-	
-  }
-} 
+		menuMgr.setRemoveAllWhenShown(true);
+		viewer.getControl().setMenu(menu);
+	}
+
+	public TableViewer getViewer() {
+		return viewer;
+	}
+
+	private void createColumns(final Composite parent, final TableViewer viewer) {
+
+		int columnSize = 100;
+		String[] titles = { "Task", "Status", "Priority" };
+		int[] bounds = { columnSize, columnSize, columnSize };
+		// first column is for the first name
+		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				ToDoObject t = (ToDoObject) element;
+				return t.getTask();
+			}
+		});
+
+		col = createTableViewerColumn(titles[1], bounds[1], 1);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				ToDoObject t = (ToDoObject) element;
+				return t.getStatus().toString();
+			}
+		});
+
+		col = createTableViewerColumn(titles[2], bounds[2], 2);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				ToDoObject t = (ToDoObject) element;
+				return t.getPriority().toString();
+			}
+		});
+
+	}
+
+	private TableViewerColumn createTableViewerColumn(String title, int bound,
+			final int colNumber) {
+		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
+				SWT.NONE);
+		final TableColumn column = viewerColumn.getColumn();
+		column.setText(title);
+		column.setWidth(bound);
+		column.setResizable(true);
+		column.setMoveable(true);
+		return viewerColumn;
+	}
+
+	public void setFocus() {
+		viewer.getControl().setFocus();
+	}
+
+	public void addSelectionListener() {
+		getViewer().addSelectionChangedListener(
+				new ISelectionChangedListener() {
+					public void selectionChanged(
+							final SelectionChangedEvent event) {
+						IStructuredSelection selection = (IStructuredSelection) event
+								.getSelection();
+						ToDoObject toDo = (ToDoObject) selection
+								.getFirstElement();
+						ResultModel.setSelectedToDoItem(toDo);
+
+					}
+				});
+
+	}
+}

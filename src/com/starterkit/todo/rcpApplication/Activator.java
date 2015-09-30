@@ -1,4 +1,4 @@
-package com.starterkit.todo;
+package com.starterkit.todo.rcpApplication;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
