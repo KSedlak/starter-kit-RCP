@@ -83,7 +83,7 @@ public class DetailsEdit extends ViewPart {
 		}
 		{
 			creat_dateTime = new DateTime(container, SWT.BORDER);
-			GridData gd_dateTime = new GridData(SWT.CENTER, SWT.CENTER, false,
+			GridData gd_dateTime = new GridData(SWT.FILL, SWT.CENTER, false,
 					false, 1, 1);
 			gd_dateTime.widthHint = 138;
 			creat_dateTime.setLayoutData(gd_dateTime);
@@ -115,7 +115,7 @@ public class DetailsEdit extends ViewPart {
 			lblNewLabel_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
 					false, false, 1, 1));
 			lblNewLabel_4.setAlignment(SWT.RIGHT);
-			lblNewLabel_4.setText("Task: ");
+			lblNewLabel_4.setText("ToDo: ");
 		}
 		{
 			text = new Text(container, SWT.BORDER);
@@ -149,7 +149,7 @@ public class DetailsEdit extends ViewPart {
 		}
 		{
 			EndDateTime = new DateTime(container, SWT.BORDER);
-			GridData gd_dateTime = new GridData(SWT.LEFT, SWT.CENTER, false,
+			GridData gd_dateTime = new GridData(SWT.FILL, SWT.CENTER, false,
 					false, 1, 1);
 			gd_dateTime.widthHint = 142;
 			EndDateTime.setLayoutData(gd_dateTime);

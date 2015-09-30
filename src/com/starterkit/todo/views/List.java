@@ -67,7 +67,7 @@ public class List extends ViewPart {
 
 				}
 			});
-			btnNewButton.setText("szukaj");
+			btnNewButton.setText("Search");
 		}
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
@@ -103,7 +103,7 @@ public class List extends ViewPart {
 
 	private void addContextMenu() {
 
-		action = new Action("Usun") {
+		action = new Action("Delete") {
 			public void run() {
 
 				ResultModel.remove(removeable);
@@ -140,8 +140,8 @@ public class List extends ViewPart {
 
 	private void createColumns(final Composite parent, final TableViewer viewer) {
 
-		int columnSize = 100;
-		String[] titles = { "Task", "Status", "Priority" };
+		int columnSize = 222;
+		String[] titles = { "ToDo", "Status", "Priority" };
 		int[] bounds = { columnSize, columnSize, columnSize };
 		// first column is for the first name
 		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
@@ -170,6 +170,7 @@ public class List extends ViewPart {
 				return t.getPriority().toString();
 			}
 		});
+		
 
 	}
 
@@ -178,6 +179,7 @@ public class List extends ViewPart {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
 				SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
+		column.setAlignment(SWT.CENTER);
 		column.setText(title);
 		column.setWidth(bound);
 		column.setResizable(true);

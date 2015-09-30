@@ -16,12 +16,12 @@
       <perspective
             class="com.starterkit.todo.perspectives.Main"
             id="com.starterkit.todo.perspectives.Main"
-            name="Main">
+            name="ToDo List">
       </perspective>
       <perspective
             class="com.starterkit.todo.perspectives.Advanced"
             id="com.starterkit.todo.perspectives.Advanced"
-            name="TaskManager">
+            name="ToDo Manager">
       </perspective>
    </extension>
    <extension
@@ -29,7 +29,7 @@
       <view
             class="com.starterkit.todo.views.List"
             id="com.starterkit.todo.views.List"
-            name="Task List"
+            name="ToDo List"
             restorable="true">
       </view>
       <view
@@ -40,7 +40,7 @@
       <view
             class="com.starterkit.todo.views.AddTask"
             id="com.starterkit.todo.perspectives.AddTask"
-            name="Add Task">
+            name="Add ToDo">
       </view>
       <view
             class="com.starterkit.todo.views.DetailsEdit"
@@ -66,29 +66,29 @@
          <view
                id="com.starterkit.todo.views.ArchiveList"
                minimized="false"
-               ratio="0.75"
-               relationship="left"
-               relative="org.eclipse.ui.editorss">
+               ratio="0.6"
+               relationship="bottom"
+               relative="com.starterkit.todo.views.List">
          </view>
          <view
                id="com.starterkit.todo.views.List"
                minimized="false"
-               ratio="0.4"
-               relationship="right"
-               relative="com.starterkit.todo.views.ArchiveList">
+               ratio="0.7"
+               relationship="left"
+               relative="org.eclipse.ui.editorss">
          </view>
          <view
                id="com.starterkit.todo.perspectives.AddTask"
                minimized="false"
                ratio="0.7"
-               relationship="bottom"
-               relative="com.starterkit.todo.views.DetailsEdit">
+               relationship="right"
+               relative="com.starterkit.todo.views.ArchiveList">         
          </view>
          <view
                closeable="true"
                id="com.starterkit.todo.views.DetailsEdit"
                minimized="false"
-               ratio="0.8"
+               ratio="0.4"
                relationship="right"
                relative="org.eclipse.ui.editorss">
          </view>

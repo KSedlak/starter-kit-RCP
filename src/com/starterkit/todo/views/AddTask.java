@@ -11,10 +11,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.wb.swt.SWTResourceManager;
+
 import com.starterkit.todo.DataModel.Priority;
 import com.starterkit.todo.DataModel.Status;
 import com.starterkit.todo.DataModel.ToDoObject;
+import com.starterkit.todo.Repository.ToDoRepository;
 import com.starterkit.todo.ResultModel.ResultModel;
+
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
@@ -47,7 +50,9 @@ public class AddTask extends ViewPart{
 		}
 		{
 			text = new Text(parent, SWT.BORDER);
-			text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+			GridData gd_text = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+			gd_text.widthHint = 70;
+			text.setLayoutData(gd_text);
 		}
 		{
 			Label lblNewLabel_1 = new Label(parent, SWT.NONE);
@@ -76,9 +81,9 @@ public class AddTask extends ViewPart{
 		new Label(parent, SWT.NONE);
 		{
 			addButton= new Button(parent, SWT.NONE);
-			addButton.setText("Dodaj");
-			GridData gd_addButton = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-			gd_addButton.widthHint = 331;
+			addButton.setText("Add");
+			GridData gd_addButton = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+			gd_addButton.widthHint = 86;
 			addButton.setLayoutData(gd_addButton);
 			addButton.addSelectionListener(new SelectionAdapter() {
 		

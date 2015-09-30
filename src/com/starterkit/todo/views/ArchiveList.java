@@ -28,6 +28,8 @@ import com.starterkit.todo.ResultModel.ResultModel;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.wb.swt.SWTResourceManager;
+
 
 public class ArchiveList extends ViewPart {
 	public ArchiveList() {
@@ -40,6 +42,7 @@ public class ArchiveList extends ViewPart {
 	private ToDoObject removeable;
 
 	public void createPartControl(Composite parent) {
+		parent.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.BOLD));
 
 		GridLayout layout = new GridLayout(3, false);
 		parent.setLayout(layout);
@@ -54,6 +57,8 @@ public class ArchiveList extends ViewPart {
 
 	}
 
+
+
 	private void createViewer(Composite parent) {
 		{
 			Button btnNewButton = new Button(parent, SWT.NONE);
@@ -64,7 +69,7 @@ public class ArchiveList extends ViewPart {
 					ResultModel.getArchiveTaskByText(searchText.getText());
 				}
 			});
-			btnNewButton.setText("szukaj");
+			btnNewButton.setText("Search");
 		}
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
@@ -98,8 +103,8 @@ public class ArchiveList extends ViewPart {
 
 	private void createColumns(final Composite parent, final TableViewer viewer) {
 
-		int columnSize = 100;
-		String[] titles = { "Task", "Status", "Priority" };
+		int columnSize = 222;
+		String[] titles = { "ToDo", "Status", "Priority" };
 		int[] bounds = { columnSize, columnSize, columnSize };
 
 		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
@@ -134,8 +139,9 @@ public class ArchiveList extends ViewPart {
 	private TableViewerColumn createTableViewerColumn(String title, int bound,
 			final int colNumber) {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
-				SWT.NONE);
+				SWT.CENTER);
 		final TableColumn column = viewerColumn.getColumn();
+		column.setAlignment(SWT.CENTER);
 		column.setText(title);
 		column.setWidth(bound);
 		column.setResizable(true);

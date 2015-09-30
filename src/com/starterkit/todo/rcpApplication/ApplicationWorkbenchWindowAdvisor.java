@@ -33,6 +33,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		configurer.setInitialSize(new Point(sizeW, sizeH));
 		configurer.setShowCoolBar(false);
 		configurer.setShowStatusLine(false);
+		configurer.setShowMenuBar(false);
+		configurer.setShowFastViewBars(false);
 		configurer.setShowPerspectiveBar(true);
 		configurer.setTitle("TODO List Application");
 	}
