@@ -16,30 +16,23 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.core.databinding.beans.BeanProperties;
-
 import com.starterkit.todo.DataModel.Priority;
 import com.starterkit.todo.DataModel.Status;
 import com.starterkit.todo.DataModel.ToDoObject;
 import com.starterkit.todo.ResultModel.ResultModel;
 import com.starterkit.todo.Tracker.TableColumnTracker;
-
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
+
 
 public class List extends ViewPart {
 	public List() {
@@ -51,7 +44,7 @@ public class List extends ViewPart {
 	private ToDoObject selectedTODO;
 	private WritableList input;
 	private Text searchText;
-	private int clickedColumn;
+
 	Table table;
 	private TableColumnTracker fColumnTracker;
 

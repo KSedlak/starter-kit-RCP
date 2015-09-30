@@ -36,8 +36,6 @@ public class TableColumnTracker implements Listener {
 	@Override
 	public void handleEvent(Event event) {
 		Table table = fTableViewer.getTable();
-
-		// calculate click offset within table area
 		Point point = Display.getDefault().map(null, table, new Point(event.x, event.y));
 		Rectangle clientArea = table.getClientArea();
 		fHeaderArea = (clientArea.y <= point.y) && (point.y < (clientArea.y + table.getHeaderHeight()));
