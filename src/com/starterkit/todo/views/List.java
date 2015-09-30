@@ -8,6 +8,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.databinding.viewers.ViewerSupport;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -15,19 +16,30 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.core.databinding.beans.BeanProperties;
+
+import com.starterkit.todo.DataModel.Priority;
+import com.starterkit.todo.DataModel.Status;
 import com.starterkit.todo.DataModel.ToDoObject;
 import com.starterkit.todo.ResultModel.ResultModel;
+import com.starterkit.todo.Tracker.TableColumnTracker;
+
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 
 public class List extends ViewPart {
 	public List() {
@@ -36,11 +48,12 @@ public class List extends ViewPart {
 	public static final String ID = "com.starterkit.todo.views.List";
 
 	private TableViewer viewer;
-	private ToDoObject removeable;
+	private ToDoObject selectedTODO;
 	private WritableList input;
 	private Text searchText;
-	private Action action;
+	private int clickedColumn;
 	Table table;
+	private TableColumnTracker fColumnTracker;
 
 	public void createPartControl(Composite parent) {
 
@@ -102,21 +115,82 @@ public class List extends ViewPart {
 	}
 
 	private void addContextMenu() {
-
-		action = new Action("Delete") {
+/////////////////////////////////////////////////////////ACTIONS
+		Action deleteAction = new Action("Delete") {
 			public void run() {
 
-				ResultModel.remove(removeable);
+				ResultModel.remove(selectedTODO);
+			}
+		};
+		Action archAction = new Action("to Archive") {
+			public void run() {
+				ResultModel.MoveToArchive(selectedTODO);
+			}
+		};
+
+		Action doneAction = new Action("Done ToDo") {
+			public void run() {
+
+				ResultModel.makeDone(selectedTODO);
+			}
+		};
+		Action cancelAction = new Action("Cancel ToDo") {
+			public void run() {
+
+				ResultModel.changeStatus(selectedTODO, Status.Canceled);
+			}
+		};
+		
+		Action undonelAction = new Action("Undone ToDo") {
+			public void run() {
+
+				ResultModel.changeStatus(selectedTODO, Status.Undone);
+			}
+		};
+		
+		Action ongoingAction = new Action("Ongoing ToDo") {
+			public void run() {
+
+				ResultModel.changeStatus(selectedTODO, Status.Ongoing);
+			}
+		};
+		Action highestPAction = new Action("Highest Priority") {
+			public void run() {
+
+				ResultModel.changePriority(selectedTODO, Priority.Highest);
+			}
+		};
+		Action highPAction = new Action("High Priority") {
+			public void run() {
+
+				ResultModel.changePriority(selectedTODO, Priority.High);
+			}
+		};
+		Action lowPAction = new Action("Low Priority") {
+			public void run() {
+
+				ResultModel.changePriority(selectedTODO, Priority.Low);
+			}
+		};
+		
+		Action lowestPAction = new Action("Lowest Priority") {
+			public void run() {
+
+				ResultModel.changePriority(selectedTODO, Priority.Lowest);
+			}
+		};
+		Action NormalPAction = new Action("Normal Priority") {
+			public void run() {
+
+				ResultModel.changePriority(selectedTODO, Priority.Normal);
 			}
 		};
 		MenuManager menuMgr = new MenuManager();
-
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		menuMgr.addMenuListener(new IMenuListener() {
 			@Override
 			public void menuAboutToShow(IMenuManager manager) {
-				// IWorkbench wb = PlatformUI.getWorkbench();
-				// IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+
 				if (viewer.getSelection().isEmpty()) {
 					return;
 				}
@@ -124,8 +198,27 @@ public class List extends ViewPart {
 				if (viewer.getSelection() instanceof IStructuredSelection) {
 					IStructuredSelection selection = (IStructuredSelection) viewer
 							.getSelection();
-					removeable = (ToDoObject) selection.getFirstElement();
-					manager.add(action);
+
+					selectedTODO = (ToDoObject) selection.getFirstElement();
+
+						manager.add(deleteAction);
+						manager.add(archAction);
+
+					if (fColumnTracker.getSelectedColumnIndex() == 1) {
+						manager.add(new Separator("Status Change"));
+						manager.add(doneAction);
+						manager.add(cancelAction);
+						manager.add(ongoingAction);
+						manager.add(undonelAction);
+					}
+					if (fColumnTracker.getSelectedColumnIndex() == 2) {
+						manager.add(new Separator("Priority Change"));
+						manager.add(highestPAction);
+						manager.add(highPAction);
+						manager.add(NormalPAction);
+						manager.add(lowPAction);
+						manager.add(lowestPAction);
+					}
 				}
 			}
 
@@ -170,7 +263,6 @@ public class List extends ViewPart {
 				return t.getPriority().toString();
 			}
 		});
-		
 
 	}
 
@@ -205,5 +297,6 @@ public class List extends ViewPart {
 					}
 				});
 
+		fColumnTracker = new TableColumnTracker(getViewer());
 	}
 }

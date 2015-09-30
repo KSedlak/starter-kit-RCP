@@ -120,4 +120,29 @@ public class ResultModel {
 		getArchive();
 		getActiveTask();
 	}
+
+	public static void makeDone(ToDoObject selectedTODO) {
+		selectedTODO.setEndDate(new Date());
+		selectedTODO.setStatus(Status.Done);
+		getArchive();
+		getActiveTask();
+		
+	}
+	public static void changeStatus(ToDoObject x, Status s) {
+		x.setStatus(s);
+		getArchive();
+		getActiveTask();
+	}
+
+	public static void changePriority(ToDoObject x, Priority s) {
+		x.setPriority(s);
+		getArchive();
+		getActiveTask();
+	}
+
+	public static void MoveToArchive(ToDoObject selectedTODO) {
+			selectedTODO.setIsMovedToArchive(true);
+			getArchive();
+			getActiveTask();	
+	}
 }

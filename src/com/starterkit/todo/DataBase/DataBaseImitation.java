@@ -31,6 +31,8 @@ public class DataBaseImitation {// singleton instance with toDo´s
 
 		Date d = new Date();
 		t4.setCreationDate(setDateToDate(d, 2011));
+		Date dateE=new Date();
+		t5.setEndDate(setDateToDate(dateE, 2016));
 
 		add(t1);
 		add(t2);

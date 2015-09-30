@@ -19,7 +19,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-
 import com.starterkit.todo.Converters.MyConverter;
 import com.starterkit.todo.DataModel.Priority;
 import com.starterkit.todo.DataModel.Status;
@@ -83,10 +82,10 @@ public class DetailsEdit extends ViewPart {
 		}
 		{
 			creat_dateTime = new DateTime(container, SWT.BORDER);
-			GridData gd_dateTime = new GridData(SWT.FILL, SWT.CENTER, false,
+			GridData gd_dateTimes = new GridData(SWT.FILL, SWT.CENTER, false,
 					false, 1, 1);
-			gd_dateTime.widthHint = 138;
-			creat_dateTime.setLayoutData(gd_dateTime);
+			gd_dateTimes.widthHint = 138;
+			creat_dateTime.setLayoutData(gd_dateTimes);
 		}
 		{
 			Label lblNewLabel_3 = new Label(container, SWT.NONE);
@@ -149,10 +148,10 @@ public class DetailsEdit extends ViewPart {
 		}
 		{
 			EndDateTime = new DateTime(container, SWT.BORDER);
-			GridData gd_dateTime = new GridData(SWT.FILL, SWT.CENTER, false,
+			GridData gd_dateTimer = new GridData(SWT.FILL, SWT.CENTER, false,
 					false, 1, 1);
-			gd_dateTime.widthHint = 142;
-			EndDateTime.setLayoutData(gd_dateTime);
+			gd_dateTimer.widthHint = 142;
+			EndDateTime.setLayoutData(gd_dateTimer);
 		}
 		new Label(container, SWT.NONE);
 		{
@@ -173,12 +172,13 @@ public class DetailsEdit extends ViewPart {
 				BeanProperties.value("isMovedToArchive")
 						.observeDetail(selected));
 
+		DateTimeSelectionProperty dateTimeSelectionPropertyCREATION = new DateTimeSelectionProperty();
+		DateTimeSelectionProperty dateTimeSelectionPropertyEND = new DateTimeSelectionProperty();
 		
-		DateTimeSelectionProperty dateTimeSelectionProperty = new DateTimeSelectionProperty();
-
-		ISWTObservableValue creaDateTimeObservableValue = dateTimeSelectionProperty
+		ISWTObservableValue creaDateTimeObservableValue = dateTimeSelectionPropertyCREATION
 				.observe(creat_dateTime);
-		ISWTObservableValue endDateTimeObservableValue = dateTimeSelectionProperty
+		
+		ISWTObservableValue endDateTimeObservableValue = dateTimeSelectionPropertyEND
 				.observe(EndDateTime);
 
 		ctx.bindValue(creaDateTimeObservableValue,

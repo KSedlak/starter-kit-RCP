@@ -23,6 +23,7 @@ public class ToDoObject {
 		this.status = Status.Undone;
 		this.creationDate = new Date();
 		this.isMovedToArchive = false;
+		this.endDate=new Date();
 	}
 
 	public ToDoObject(String task, Priority pr) {
@@ -32,7 +33,8 @@ public class ToDoObject {
 		this.status = Status.Undone;
 		this.creationDate = new Date();
 		this.isMovedToArchive = false;
-	}
+		this.endDate=new Date();
+				}
 
 	public ToDoObject(Priority priority, String task, Status status) {
 		super();
@@ -41,6 +43,7 @@ public class ToDoObject {
 		this.status = status;
 		this.creationDate = new Date();
 		this.isMovedToArchive = false;
+		this.endDate=new Date();
 	}
 
 	public void addPropertyChangeListener(String propertyName,
